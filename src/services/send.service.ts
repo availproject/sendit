@@ -227,10 +227,23 @@ async function erc20TokenTransfer(
       mode: "ARCANA",
       calculateGasLimits: true,
     });
-    const confirmed = await tx.wait();
+    const transactionData = await tx.wait();
+    await new Promise(function (resolve) {
+      const intervalId = setInterval(async () => {
+        const status = await checkIfTransactionConfirmed(
+          chain_id,
+          transactionData.userOpHash
+        );
+        console.log(status, "status");
+        if (status.state === "CONFIRMED") {
+          clearInterval(intervalId);
+          resolve(true);
+        }
+      }, 1000);
+    });
     return {
-      ...confirmed,
-      hash: confirmed.userOpHash,
+      ...transactionData,
+      hash: transactionData.receipt.transactionHash,
       to: gaslessAddress || receiverWalletAddress,
     };
   }
