@@ -50,7 +50,7 @@ async function nativeTokenTransfer(
   provider: EthereumProvider,
   amount: number,
   feeData: FeeData | null,
-  nonce: number,
+  nonce: number | undefined,
   isGasless?: boolean,
   chain_id?: string | number,
   isDeposit?: boolean
@@ -98,7 +98,7 @@ async function nativeTokenTransfer(
     rawTx.maxFeePerGas = feeData.maxFeePerGas;
     rawTx.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
   }
-  if (isGasless && nonce < 15) {
+  if (isGasless && nonce && nonce < 15) {
     const txParams = {
       from: scwInstance.scwAddress,
       to: gaslessAddress || receiverWalletAddress,
@@ -150,7 +150,7 @@ async function erc20TokenTransfer(
   amount: number,
   tokenAddress: string,
   feeData: FeeData | null,
-  nonce: number,
+  nonce: number | undefined,
   isGasless?: boolean,
   chain_id?: string | number,
   isDeposit?: boolean
@@ -199,7 +199,7 @@ async function erc20TokenTransfer(
     ptx.maxFeePerGas = BigInt(feeData.maxFeePerGas);
     ptx.maxPriorityFeePerGas = BigInt(feeData.maxPriorityFeePerGas);
   }
-  if (isGasless && nonce < 15) {
+  if (isGasless && nonce && nonce < 15) {
     const abi = [
       "function transfer(address recipient, uint256 amount) returns (bool)",
     ];
@@ -236,15 +236,19 @@ async function erc20TokenTransfer(
       hash: transactionData.receipt.transactionHash,
       to: gaslessAddress || receiverWalletAddress,
     };
-  }
-  const tx = await wallet.sendTransaction(ptx);
-  const confirmed = await tx.wait(4);
+  } else {
+    const tx = await wallet.sendTransaction(ptx);
+    const confirmed = await tx.wait(4);
 
-  if (confirmed == null) {
-    throw new Error("Invalid transaction");
-  }
+    if (confirmed == null) {
+      throw new Error("Invalid transaction");
+    }
 
-  return { hash: confirmed.hash, to: gaslessAddress || receiverWalletAddress };
+    return {
+      hash: confirmed.hash,
+      to: gaslessAddress || receiverWalletAddress,
+    };
+  }
 }
 
 type RequestedNativeTokenTransferData = {
