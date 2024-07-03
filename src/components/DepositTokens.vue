@@ -134,22 +134,6 @@ function isEoaWallet() {
   return userInput.sourceOfFunds === "Regular Account";
 }
 
-async function initSCWsdk() {
-  const currentAccountType = await authStore.provider.request({
-    method: "_arcana_getAccountType",
-  });
-  if (currentAccountType === "scw") {
-    await authStore.provider.request({
-      method: "_arcana_switchAccountType",
-      params: {
-        type: "eoa",
-      },
-    });
-  }
-  //@ts-ignore
-  await initSCW(ARCANA_APP_ADDRESS, window.arcana.provider);
-}
-
 async function handleDeposit() {
   loaderStore.showLoader(
     "DEPOSITING TOKENS",
