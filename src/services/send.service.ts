@@ -98,20 +98,12 @@ async function nativeTokenTransfer(
     rawTx.maxFeePerGas = feeData.maxFeePerGas;
     rawTx.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
   }
-  console.log(
-    { is: isGasless && nonce < 15 },
-    { isGasless },
-    { nonce },
-    "nonce-nonce-1"
-  );
   if (isGasless && nonce < 15) {
-    console.log({ isGasless }, { nonce }, "nonce-nonce-2");
     const txParams = {
       from: scwInstance.scwAddress,
       to: gaslessAddress || receiverWalletAddress,
       value: decimalAmount.mul(Decimal.pow(10, 18)).ceil().toHexadecimal(),
     };
-    console.log({ txParams }, "txParams");
     const tx = await scwInstance.doTx(txParams, {
       mode: "ARCANA",
       calculateGasLimits: true,
@@ -123,7 +115,6 @@ async function nativeTokenTransfer(
           chain_id,
           transactionData.userOpHash
         );
-        console.log(status, "status");
         if (status.state === "CONFIRMED") {
           clearInterval(intervalId);
           resolve(true);
@@ -234,7 +225,6 @@ async function erc20TokenTransfer(
           chain_id,
           transactionData.userOpHash
         );
-        console.log(status, "status");
         if (status.state === "CONFIRMED") {
           clearInterval(intervalId);
           resolve(true);

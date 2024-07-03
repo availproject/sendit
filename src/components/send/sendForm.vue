@@ -241,7 +241,6 @@ function messageArcana(
     to_verifier,
     type,
   };
-  console.log({ message });
   return conn.sendMessage(SOCKET_IDS.SEND_TX, message);
 }
 
@@ -403,7 +402,6 @@ async function proceed() {
               userInput.value.sourceOfFunds === "scw",
               userInput.value.chain
             );
-      console.log(tx, "tx-tx");
       loadStore.showLoader("Generating SendIt link...");
       const { hash, to } = tx;
       if (to == null) {
@@ -416,7 +414,6 @@ async function proceed() {
       const toVerifier =
         userInput.value.medium === "twitter" ? "twitter" : "passwordless";
       //@ts-ignore
-      console.log({ to, hash, fromEmail, toEmail, fromVerifier, toVerifier });
       const sendRes = (await messageArcana(
         hash,
         to,
@@ -429,7 +426,6 @@ async function proceed() {
           ? TOKEN_TYPES.NATIVE
           : TOKEN_TYPES.ERC20
       )) as any;
-      console.log(sendRes, "sendRes");
       sendRes.verifier_id = recipientId;
       sendRes.hash = hash;
       sendRes.verifier_human =
