@@ -110,6 +110,7 @@ async function nativeTokenTransfer(
       calculateGasLimits: true,
     });
     const transactionData = await tx.wait();
+    console.log({ transactionData, tx });
     await new Promise(function (resolve) {
       const intervalId = setInterval(async () => {
         const status = await checkIfTransactionConfirmed(
