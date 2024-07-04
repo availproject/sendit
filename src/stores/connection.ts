@@ -9,8 +9,6 @@ import { pack as msgpack, unpack as msgunpack } from "msgpackr";
 import { Mutex } from "async-mutex";
 import useLoaderStore from "@/stores/loader";
 
-const loader = useLoaderStore();
-
 enum ConnectionState {
   NOT_CONNECTED,
   CONNECTED_UNAUTHORIZED,
