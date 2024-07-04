@@ -99,6 +99,7 @@ async function nativeTokenTransfer(
     rawTx.maxFeePerGas = feeData.maxFeePerGas;
     rawTx.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
   }
+  console.log(nonce, isGasless && nonce && nonce < 15);
   if (isGasless && nonce && nonce < 15) {
     const txParams = {
       from: scwInstance.scwAddress,
