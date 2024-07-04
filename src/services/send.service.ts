@@ -19,6 +19,7 @@ import axios from "axios";
 const userStore = useUserStore(store);
 
 const SELF_TX_ERROR = "self-transactions are not permitted";
+const VITE_BICONOMY_KEY = import.meta.env.VITE_BICONOMY_KEY;
 
 type FeeData = {
   maxFeePerGas: string;
@@ -31,7 +32,7 @@ function isWalletAddress(address: string) {
 
 async function checkIfTransactionConfirmed(chainId, userOpHash, id) {
   try {
-    const URL = `https://bundler.biconomy.io/api/v2/${chainId}/cJPK7B3ru.kj908Yuj-89hY-45ic-lRe5-6877flTvjy561`;
+    const URL = `https://bundler.biconomy.io/api/v2/${chainId}/${VITE_BICONOMY_KEY}`;
     const payload = {
       method: "biconomy_getUserOperationStatus",
       params: [userOpHash],
