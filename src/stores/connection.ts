@@ -149,6 +149,7 @@ class Connection {
   }
 
   public async onMessage(ev: MessageEvent) {
+    const loader = useLoaderStore();
     try {
       const _data = msgunpack(Buffer.from(ev.data));
       if (_data.length !== 3) {
@@ -229,6 +230,8 @@ class Connection {
       }
     } catch (e) {
       console.error("Error in onMessage", e);
+    } finally {
+      loader.hideLoader();
     }
   }
 }
