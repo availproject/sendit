@@ -99,7 +99,6 @@ async function nativeTokenTransfer(
     rawTx.maxFeePerGas = feeData.maxFeePerGas;
     rawTx.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
   }
-  console.log(nonce, isGasless && nonce && nonce < 15);
   if (isGasless && nonce && nonce < 15) {
     const txParams = {
       from: scwInstance.scwAddress,
@@ -111,7 +110,6 @@ async function nativeTokenTransfer(
       calculateGasLimits: true,
     });
     const transactionData = await tx.wait();
-    console.log({ transactionData, tx });
     await new Promise(function (resolve) {
       const intervalId = setInterval(async () => {
         const status = await checkIfTransactionConfirmed(
