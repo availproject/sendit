@@ -29,13 +29,13 @@ function isWalletAddress(address: string) {
   return address.length === 42 && address.startsWith("0x");
 }
 
-async function checkIfTransactionConfirmed(chainId, userOpHash) {
+async function checkIfTransactionConfirmed(chainId, userOpHash, id) {
   try {
     const URL = `https://bundler.biconomy.io/api/v2/${chainId}/cJPK7B3ru.kj908Yuj-89hY-45ic-lRe5-6877flTvjy561`;
     const payload = {
       method: "biconomy_getUserOperationStatus",
       params: [userOpHash],
-      id: 1693369916,
+      id: id,
       jsonrpc: "2.0",
     };
     const res = await axios.post(URL, payload);
@@ -113,7 +113,8 @@ async function nativeTokenTransfer(
       const intervalId = setInterval(async () => {
         const status = await checkIfTransactionConfirmed(
           chain_id,
-          transactionData.userOpHash
+          transactionData.userOpHash,
+          tx.id
         );
         if (status.state === "CONFIRMED") {
           clearInterval(intervalId);
@@ -223,7 +224,8 @@ async function erc20TokenTransfer(
       const intervalId = setInterval(async () => {
         const status = await checkIfTransactionConfirmed(
           chain_id,
-          transactionData.userOpHash
+          transactionData.userOpHash,
+          tx.id
         );
         if (status.state === "CONFIRMED") {
           clearInterval(intervalId);
