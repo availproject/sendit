@@ -193,7 +193,8 @@ async function handleSend() {
         sellAddress.value,
         authStore.provider,
         Number(userInput.amount),
-        null
+        null,
+        undefined
       );
     } else {
       await erc20TokenTransfer(
@@ -201,7 +202,8 @@ async function handleSend() {
         authStore.provider,
         Number(userInput.amount),
         sendToken.contractAddress,
-        null
+        null,
+        undefined
       );
     }
     toast.success(

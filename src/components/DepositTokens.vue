@@ -220,6 +220,7 @@ async function handleDeposit() {
             arcanaProvider,
             amount,
             feeData,
+            undefined,
             false,
             userInput.chain,
             true
@@ -233,6 +234,7 @@ async function handleDeposit() {
             //@ts-ignore
             userInput.token,
             feeData,
+            undefined,
             false,
             userInput.chain,
             true
