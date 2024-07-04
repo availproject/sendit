@@ -103,7 +103,7 @@ const chains = {
     blockchain: "arbitrum_sepolia",
     currency: "ETH",
     explorer: "https://sepolia.arbiscan.io",
-    icon_url: "https://icons.llamao.fi/icons/chains/rsz_linea.jpg",
+    icon_url: "https://icons.llamao.fi/icons/chains/rsz_arbitrum.jpg",
   },
 };
 
