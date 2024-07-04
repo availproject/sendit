@@ -291,7 +291,7 @@ async function proceed() {
       method: "_arcana_getAccountType",
     });
     if (
-      (currentAccountType === "scw" || currentAccountType === "eoa") &&
+      currentAccountType === "scw" &&
       userInput.value.sourceOfFunds === "scw"
     ) {
       try {
