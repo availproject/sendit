@@ -7,6 +7,8 @@ async function getNonceForArcanaSponsorship(
   address: string,
   rpcUrl: string
 ): Promise<ethers.BigNumberish> {
+  const provider = new WebSocketProvider(rpcUrl);
+
   const c = new ethers.Contract(
     VITE_APP_CONTRACT_ADDRESS_FOR_NONCE,
     [
@@ -35,10 +37,12 @@ async function getNonceForArcanaSponsorship(
         type: "function",
       },
     ],
-    new WebSocketProvider(rpcUrl)
+    provider
   );
 
-  return await c.getNonce(address, 0);
+  const nonce = await c.getNonce(address, 0);
+  await provider.destroy();
+  return nonce;
 }
 
 export default getNonceForArcanaSponsorship;
