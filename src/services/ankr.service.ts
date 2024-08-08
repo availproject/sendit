@@ -77,7 +77,6 @@ async function getNativeTokenBalances(walletAddress: string) {
     axios.post(chains[97].rpc_url, payload),
     axios.post(chains[204].rpc_url, payload),
     axios.post(chains[59144].rpc_url, payload),
-    axios.post(chains[59140].rpc_url, payload),
   ];
   const [
     eth,
@@ -88,7 +87,6 @@ async function getNativeTokenBalances(walletAddress: string) {
     bsc_testnet_chapel,
     opbnb_mainnet,
     linea,
-    linea_goerli,
   ] = await Promise.allSettled(ankrPromises);
   return [
     {
@@ -187,18 +185,6 @@ async function getNativeTokenBalances(walletAddress: string) {
               .toString()
           : 0,
       thumbnail: chains[59144].icon_url,
-    },
-    {
-      tokenType: "NATIVE",
-      tokenSymbol: "ETH",
-      blockchain: "linea_testnet",
-      balance:
-        linea_goerli.status === "fulfilled" && linea_goerli.value.data.result
-          ? new Decimal(linea_goerli.value.data.result)
-              .mul(Decimal.pow(10, -18))
-              .toString()
-          : 0,
-      thumbnail: chains[59140].icon_url,
     },
   ];
 }
