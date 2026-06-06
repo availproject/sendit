@@ -300,7 +300,8 @@ async function proceed() {
         nonce = Number(
           await getNonceForArcanaSponsorship(scwInstance.scwAddress, rpc_url)
         );
-        if (nonce > 15) {
+        console.log(nonce, "nonce");
+        if (nonce >= 15) {
           await authStore.provider.request({
             method: "_arcana_switchAccountType",
             params: {
